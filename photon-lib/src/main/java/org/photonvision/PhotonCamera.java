@@ -52,6 +52,7 @@ import org.photonvision.targeting.PhotonPipelineResult;
 
 /** Represents a camera that is connected to PhotonVision. */
 public class PhotonCamera implements AutoCloseable {
+    /** The table prefix used by PhotonVision in NT */
     public static final String kTableName = "photonvision";
 
     private final NetworkTable cameraTable;
@@ -108,6 +109,11 @@ public class PhotonCamera implements AutoCloseable {
     private double prevHeartbeatChangeTime = 0;
     private static final double HEARTBEAT_DEBOUNCE_SEC = 0.5;
 
+    /**
+     * Enable validation of the connected PV backend version. Should match {@link PhotonVersion}.
+     * 
+     * @param enabled version checking enabled
+     */
     public static void setVersionCheckEnabled(boolean enabled) {
         VERSION_CHECK_ENABLED = enabled;
     }
@@ -318,6 +324,11 @@ public class PhotonCamera implements AutoCloseable {
         return (now - prevHeartbeatChangeTime) < HEARTBEAT_DEBOUNCE_SEC;
     }
 
+    /**
+     * Get Camera Calibration Matrix
+     * 
+     * @return [3x3] Matrix of Camera Calibration Coefficents
+     */
     public Optional<Matrix<N3, N3>> getCameraMatrix() {
         var cameraMatrix = cameraIntrinsicsSubscriber.get();
         if (cameraMatrix != null && cameraMatrix.length == 9) {
@@ -325,6 +336,11 @@ public class PhotonCamera implements AutoCloseable {
         } else return Optional.empty();
     }
 
+    /**
+     * Get Camera Distortion Matrix
+     * 
+     * @return [5x1] Matrix of Camera Distortion Coefficents
+     */
     public Optional<Matrix<N5, N1>> getDistCoeffs() {
         var distCoeffs = cameraDistortionSubscriber.get();
         if (distCoeffs != null && distCoeffs.length == 5) {
@@ -335,6 +351,7 @@ public class PhotonCamera implements AutoCloseable {
     /**
      * Gets the NetworkTable representing this camera's subtable. You probably don't ever need to call
      * this.
+     * @return camera NT subtable
      */
     public final NetworkTable getCameraTable() {
         return cameraTable;

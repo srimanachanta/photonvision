@@ -48,6 +48,8 @@ public class EstimatedRobotPose {
      *
      * @param estimatedPose estimated pose
      * @param timestampSeconds timestamp of the estimate
+     * @param targetsUsed targets used in the estimation process
+     * @param strategy the strategy used to estimate pose
      */
     public EstimatedRobotPose(
             Pose3d estimatedPose,
