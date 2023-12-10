@@ -103,6 +103,21 @@ class PhotonPoseEstimator {
   /**
    * Create a new PhotonPoseEstimator.
    *
+   * @param aprilTags A AprilTagFieldLayout linking AprilTag IDs to Pose3ds with
+   * respect to the FIRST field.
+   * @param strategy The strategy it should use to determine the best pose.
+   * @param camera The PhotonCamera.
+   * @param robotToCamera Transform3d from the center of the robot to the camera
+   * mount positions (ie, robot ➔ camera).
+   */
+  explicit PhotonPoseEstimator(frc::AprilTagFieldLayout aprilTags,
+                               PoseStrategy strategy,
+                               std::unique_ptr<PhotonCamera> camera,
+                               frc::Transform3d robotToCamera);
+
+  /**
+   * Create a new PhotonPoseEstimator.
+   *
    * <p>Example: {@code <code> <p> Map<Integer, Pose3d> map = new HashMap<>();
    * <p> map.put(1, new Pose3d(1.0, 2.0, 3.0, new Rotation3d())); // Tag ID 1 is
    * at (1.0,2.0,3.0) </code> }

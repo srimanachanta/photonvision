@@ -81,6 +81,12 @@ PhotonPoseEstimator::PhotonPoseEstimator(frc::AprilTagFieldLayout tags,
       referencePose(frc::Pose3d()),
       poseCacheTimestamp(-1_s) {}
 
+PhotonPoseEstimator::PhotonPoseEstimator(frc::AprilTagFieldLayout tags,
+                                         PoseStrategy strat,
+                                         std::unique_ptr<PhotonCamera> cam,
+                                         frc::Transform3d robotToCamera)
+    : PhotonPoseEstimator(tags, strat, std::move(*cam), robotToCamera) {}
+
 void PhotonPoseEstimator::SetMultiTagFallbackStrategy(PoseStrategy strategy) {
   if (strategy == MULTI_TAG_PNP_ON_COPROCESSOR ||
       strategy == MULTI_TAG_PNP_ON_RIO) {
